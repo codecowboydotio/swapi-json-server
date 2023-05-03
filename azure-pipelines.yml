@@ -5,7 +5,7 @@
 
 trigger:
 - dev
-- master
+- main
 
 
 stages:
