@@ -95,8 +95,8 @@ jobs:
   
       - name: Run security scan
         run: |
-          docker build --tag ${{ github.event.repository.name }} .
-          docker images
+          ##docker build --tag ${{ github.event.repository.name }} .
+          ##docker images
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
           #docker run -u 0 --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p svk-2 --api-token ${{ secrets.ORCA_API_KEY }} image scan ${{ github.event.repository.name }}
           orca-cli -k ${{ secrets.ORCA_API_KEY }} image scan ${{ github.event.repository.name }}
