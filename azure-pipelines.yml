@@ -1,0 +1,81 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- dev
+- master
+
+
+stages:
+  - stage: build_dev
+    pool:
+      vmImage: ubuntu-latest
+    jobs:
+    - job: dev_job
+      variables:
+            imageName: 'swapi' 
+            isDev: $[eq(variables['Build.SourceBranch'], 'refs/heads/dev')]
+      steps:
+      - script: |
+          docker build . -t $(imageName)
+          docker images
+        displayName: 'Build container image'
+      - script: |
+          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
+        displayName: Install orca scanner
+#      - task: Docker@2
+#        displayName: Login to ACR
+#        inputs:
+#          command: login
+#          containerRegistry: svkregistry
+      - script: |
+          orca-cli --exit-code 0 -k $(ORCA_API_KEY) -p dev-pipeline fs scan .
+        displayName: Run security scan
+#      - script: |
+#          orca-cli --exit-code 0 -k $(ORCA_API_KEY) -p dev-pipeline image scan swapi
+#        displayName: Run security scan
+#      - script: |
+#          docker tag swapi:latest svktest.azurecr.io/swapi/swapi
+#          docker push svktest.azurecr.io/swapi/swapi
+#        displayName: Push image to registry 
+#      - script: |
+#          echo $(Build.SourceBranch)
+#        displayName: Push image to registry 
+#      condition: and(succeeded(), eq(variables.isDev, 'true'))
+  
+  - stage: build_main
+    jobs:
+    - job: Main_Branch
+      variables:
+            imageName: 'swapi' 
+            isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+      steps:
+      - script: |
+          docker build . -t $(imageName)
+          docker images
+        displayName: 'Build container image'
+      - script: |
+          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
+        displayName: Install orca scanner
+#      - task: Docker@2
+#        displayName: Login to ACR
+#        inputs:
+#          command: login
+#          containerRegistry: svkregistry
+      - script: |
+          docker images
+          orca-cli -k $(ORCA_API_KEY) -p main-pipeline image scan swapi
+        displayName: Run security scan
+#      - script: |
+#          docker tag swapi:latest svktest.azurecr.io/swapi/swapi
+#          docker push svktest.azurecr.io/swapi/swapi
+#        displayName: Push image to registry 
+      - script: |
+          echo $(Build.SourceBranch)
+        displayName: Push image to registry 
+      - script: |
+          echo $(Build.SourceBranch)
+        displayName: Echo the REF (branch)
+      condition: and(succeeded(), eq(variables.isMain, 'true'))
