@@ -67,7 +67,7 @@ stages:
       - script: |
           docker images
           orca-cli -k $(ORCA_API_KEY) -p main-pipeline image scan swapi
-        displayName: Run security scan
+        displayName: Run container image security scan
 #      - script: |
 #          docker tag swapi:latest svktest.azurecr.io/swapi/swapi
 #          docker push svktest.azurecr.io/swapi/swapi
