@@ -43,7 +43,7 @@ stages:
 #      - script: |
 #          echo $(Build.SourceBranch)
 #        displayName: Push image to registry 
-#      condition: and(succeeded(), eq(variables.isDev, 'true'))
+      condition: and(succeeded(), eq(variables.isDev, 'true'))
   
   - stage: build_main
     jobs:
