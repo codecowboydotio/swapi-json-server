@@ -73,6 +73,9 @@ stages:
 #          docker push svktest.azurecr.io/swapi/swapi
 #        displayName: Push image to registry 
       - script: |
+          orca-cli --exit-code 0 -k $(ORCA_API_KEY) -p dev-pipeline fs scan .
+        displayName: Run code scan
+      - script: |
           echo $(Build.SourceBranch)
         displayName: Push image to registry 
       - script: |
