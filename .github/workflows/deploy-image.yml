@@ -118,8 +118,8 @@ jobs:
           sleep 5
       #  continue-on-error: true  
 
-  Orca scan using github action:
-    needs: [unit-tests]
+  Orca-scan-using-github-action:
+    needs: [checkout-code]
     runs-on: ubuntu-latest
     permissions:
       contents: read
