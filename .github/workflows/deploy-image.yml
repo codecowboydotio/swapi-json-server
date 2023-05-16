@@ -102,6 +102,7 @@ jobs:
           echo "running first scan"
           #orca-cli -k ${{ secrets.ORCA_API_KEY }} -p svk-2 image scan ${{ github.event.repository.name }}
           echo "running second scan"
+          set -x
           orca-cli -k $ORCA_API_KEY -p default iac scan --path .
           sleep 5
       #  continue-on-error: true  
