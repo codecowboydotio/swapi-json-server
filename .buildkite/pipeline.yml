@@ -10,7 +10,7 @@ steps:
   - label: "Running Scan"
     command: |
       echo "--- Running scan on branch $BUILDKITE_BRANCH "
-      ORCA_API_KEY=$$(aws secretsmanager get-secret-value --secret-id prod/orca/buildkite | jq '.SecretString' | awk -F '"' '{print $3}' | awk -F '\' '{print $1}')
+      ORCA_API_KEY=\$(aws secretsmanager get-secret-value --secret-id prod/orca/buildkite | jq '.SecretString' | awk -F '"' '{print $3}' | awk -F '\' '{print $1}')
       docker run -u 0 --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p happy-friday --api-token $ORCA_API_KEY  image scan swapi 
     if: build.branch == "dev"
   - label: "Running scan on branch $BUILDKITE_BRANCH"
