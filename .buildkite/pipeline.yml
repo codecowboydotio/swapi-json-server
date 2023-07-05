@@ -16,6 +16,6 @@ steps:
   - label: "Running scan on branch $BUILDKITE_BRANCH"
     command: orca-cli --api-token == --project-key happy-friday-prod image scan swapi
     if: build.branch == "main"
-  - label: "Running full scan"
-    command: orca-cli --api-token == --project-key happy-friday-prod image scan swapi
-    if: build.message =~ /^full/
+#  - label: "Running full scan"
+#    command: orca-cli --api-token == --project-key happy-friday-prod image scan swapi
+#    if: build.message =~ /^full/
