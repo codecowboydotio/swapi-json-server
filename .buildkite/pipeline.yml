@@ -19,7 +19,7 @@ steps:
       set -x
       ORCA_API_KEY=\$(aws secretsmanager get-secret-value --secret-id prod/orca/buildkite | jq '.SecretString' | awk -F '"' '{print \$3}' | awk -F '\' '{print \$1}') 
       echo \$ORCA_API_KEY
-      orca-cli --api-token == --project-key happy-friday-prod image scan swapi
+      orca-cli --api-token \$ORCA_API_KEY --project-key default image scan swapi
     if: build.branch == "main"
 #  - label: "Running full scan"
 #    command: orca-cli --api-token == --project-key happy-friday-prod image scan swapi
