@@ -3,10 +3,10 @@ steps:
     command: |
       echo -e "--- Installing \033[33mOrca Scanner\033[0m :heart:"
       sudo curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
-  #- label: "Building Image"
-  #  command: |
-  #    echo -e "--- Building Image :heart::heart::heart:"
-  #    docker build . -t swapi 
+  - label: "Building Image"
+    command: |
+      echo -e "--- Building Image :heart::heart::heart:"
+      docker build . -t swapi 
   - label: "Running Scan"
     command: |
       echo "--- Running scan on branch $BUILDKITE_BRANCH "
