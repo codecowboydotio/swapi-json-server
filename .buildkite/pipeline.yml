@@ -19,7 +19,7 @@ steps:
     command: |
       echo "This is where we pretend to build a new container image but don't really"
     if: build.branch == "main"
-  - label: "Running SOURCE CODE scan on branch $BUILDKITE_BRANCH :buildkite:"
+  - label: "Running SOURCE CODE scan on branch $BUILDKITE_BRANCH :buildkite: for repo $BUILDKITE_REPO :github:"
     command: |
       set -x
       ORCA_API_KEY=\$(aws secretsmanager get-secret-value --secret-id prod/orca/buildkite | jq '.SecretString' | awk -F '"' '{print \$3}' | awk -F '\' '{print \$1}') 
