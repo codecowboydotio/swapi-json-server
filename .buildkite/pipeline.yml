@@ -15,6 +15,10 @@ steps:
 #      echo \$ORCA_API_KEY
 #      docker run -u 0 --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p default --api-token \$ORCA_API_KEY  image scan swapi 
 #    if: build.branch == "main"
+  - label: "Pretend image build (for speed) :rocket:"
+    command: |
+      echo "This is where we pretend to build a new container image but don't really"
+    if: build.branch == "main"
   - label: "Running SOURCE CODE scan on branch $BUILDKITE_BRANCH :buildkite:"
     command: |
       set -x
