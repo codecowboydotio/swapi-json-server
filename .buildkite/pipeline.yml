@@ -17,7 +17,7 @@ steps:
 #    if: build.branch == "main"
   - label: "Pretend image build (for speed) :rocket:"
     command: |
-      echo "This is where we pretend to build a new container image but don't really"
+      echo -e "--- \033[033mThis is where we pretend to build a new container image but don't really\033[0m"
     if: build.branch == "main"
   - label: "Running SOURCE CODE scan on branch $BUILDKITE_BRANCH :buildkite: for repo $BUILDKITE_REPO :github:"
     command: |
