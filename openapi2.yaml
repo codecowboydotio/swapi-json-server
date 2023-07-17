@@ -1,0 +1,86 @@
+openapi: 3.0.3
+security:
+  - consume_events_auth:
+    - write:stuff
+    - read:stuff
+info:
+    title: Test
+    description: Service testing
+    contact: 
+      email: apiteam@here.com
+    version: v1.0.0
+servers:
+    - url: https://127.0.0.1/api/v3.0.3
+paths:
+  /stuff:
+    put:
+      tags:
+        - stuff
+      summary: Update existing stuff
+      description: Update existing stuff by Id
+      operationId: updateStuff
+      requestBody:
+        description: Update an stuff
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/stuff'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/stuff'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/stuff'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stuff'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/stuff'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Stuff not found
+        '405':
+          description: Validation exception
+components:
+    schemas:
+        stuff:
+          required:
+            - name
+            - photoUrls
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 10
+            name:
+              type: string
+              example: doggie
+            status:
+              type: string
+              description: pet status in the store
+              enum:
+                - available
+                - pending
+                - sold
+          xml:
+            name: pet
+    securitySchemes:
+        consume_events_auth:
+            type: oauth2
+            description: use oauth2 flow to get the access token
+            flows:
+              implicit:
+                authorizationUrl: https://127.0.0.1/oauth/authorize
+                scopes:
+                  write:foo: modify foo
+                  read:foo: read foo
+tags:
+    - name: apishare
