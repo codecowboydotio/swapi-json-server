@@ -103,7 +103,7 @@ jobs:
           #docker run -u 0 --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p svk-2 --api-token ${{ secrets.ORCA_API_KEY }} image scan ${{ github.event.repository.name }}
           set -x
           echo "running first scan"
-          orca-cli -k ${{ secrets.ORCA_API_KEY }} -p svk-2 image scan ${{ github.event.repository.name }}
+          orca-cli -k ${{ secrets.ORCA_API_KEY }} -p default image scan ${{ github.event.repository.name }}
           echo "running second scan"
           orca-cli -k ${{ secrets.ORCA_API_KEY }} -p default iac scan --path .
           sleep 5
