@@ -50,7 +50,7 @@ jobs:
         EVENT: ${{ toJSON( github.event ) }}
       run: echo "$EVENT"
 
-  Deploy to tetsuo:
+  Deploy-to-tetsuo:
     needs: [unit-tests]
     runs-on: ubuntu-latest
     steps:
