@@ -56,4 +56,5 @@ jobs:
     steps:
       - name: Pull codebase
         run: |
-          curl -s -X POST -H "Content-Type: application/json" http://3.27.29.216:8000/pull -d '{"url":"https://github.com/codecowboydotio/swapi-json-server"}'| jq
+          set -x
+          curl -s -X POST -H "Content-Type: application/json" http://3.27.29.216:8080/pull -d '{"branch":"main","repo":"https://github.com/codecowboydotio/swapi-json-server"}'| jq
