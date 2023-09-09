@@ -50,18 +50,10 @@ jobs:
         EVENT: ${{ toJSON( github.event ) }}
       run: echo "$EVENT"
 
-  build-and-scan-image:
-    #needs: [idiot_check]
+  Deploy to tetsuo:
     needs: [unit-tests]
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-  
-      - name: Run security scan
+      - name: Pull codebase
         run: |
-          curl -s -X POST -H "Content-Type: application/json" http://10.1.1.150:8000/pull -d '{"url":"https://github.com/codecowboydotio/swapi-json-server"}'| jq
+          curl -s -X POST -H "Content-Type: application/json" http://3.27.29.216:8000/pull -d '{"url":"https://github.com/codecowboydotio/swapi-json-server"}'| jq
