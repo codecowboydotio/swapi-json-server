@@ -52,12 +52,11 @@ stages:
             imageName: 'swapi' 
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
       steps:
-      - script: |
+      - bash: |
           set -x
           HEADERS[0]="accept: application/json"
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
-          echo $HEADERS[*]
           HEADERS[2]="Authorization: Token $(ORCA_API_KEY}"
           sonarq="AwsLambdaFunction with Name = orca-poc-playground-lambda and Alerts"
           sonarq=${sonarq// /%20}
