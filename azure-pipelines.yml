@@ -55,8 +55,8 @@ stages:
       steps:
       - bash: |
           set -x
-          echo imageName
-          echo mytoken
+          echo ${imageName}
+          echo ${mytoken}
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
           HEADERS[2]="Authorization: Token ${mytoken}"
