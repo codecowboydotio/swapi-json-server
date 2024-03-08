@@ -57,7 +57,7 @@ stages:
           HEADERS[0]="accept: application/json"
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
-          echo $HEADERS
+          echo $HEADERS[*]
           HEADERS[2]="Authorization: Token $(ORCA_API_KEY}"
           sonarq="AwsLambdaFunction with Name = orca-poc-playground-lambda and Alerts"
           sonarq=${sonarq// /%20}
