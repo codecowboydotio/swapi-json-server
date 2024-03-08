@@ -53,6 +53,7 @@ stages:
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
       steps:
       - script: |
+          set -x
           HEADERS[0]="accept: application/json"
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
