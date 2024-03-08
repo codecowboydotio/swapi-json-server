@@ -53,10 +53,6 @@ stages:
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
       steps:
       - script: |
-          docker build . -t $(imageName)
-          docker images
-        displayName: 'Build container image'
-      - script: |
           HEADERS[0]="accept: application/json"
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
@@ -69,6 +65,10 @@ stages:
           NUM_RISKS = $(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="medium")] | length')
           echo $NUM_RISKS
         displayName: Risk Check
+      - script: |
+          docker build . -t $(imageName)
+          docker images
+        displayName: 'Build container image'
       - script: |
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
         displayName: Install orca scanner
