@@ -53,6 +53,18 @@ stages:
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
             mytoken: $(ORCA_API_KEY)
       steps:
+      - inputs:
+          inlinescript: |
+            echo "Deployment Target is set to $(DEPLOYMENTTARGET)"
+            echo $(deploymentTarget)
+            HEADERS[1]="Content-Type: application/json"
+            API_URL="https://api.orcasecurity.io/api"
+            HEADERS[2]="Authorization: Token $(mytoken)"
+            sonarq="AwsLambdaFunction with Name like \"$(deploymentTarget)\" and Alerts"
+            sonarq=${sonarq// /%20}
+            NUM_RISKS = $(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
+            echo "Setting variable NUM_RISKS
+            echo "##vso[task.setvariable variable=NUM_RISKS_SET;isOutput=true]$NUM_RISKS"
       - bash: |
           echo "Deployment Target is set to $(DEPLOYMENTTARGET)"
           echo $(deploymentTarget)
@@ -63,13 +75,6 @@ stages:
           sonarq=${sonarq// /%20}
           NUM_RISKS = $(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
           set -x
-          echo "##vso[task.setvariable variable=myVar;]foo"
-          echo "You can use macro syntax for variables: $(myVar)"
-          echo "$NUM_RISKS"
-          if [ "$NUM_RISKS" -ne 0 ]
-          then
-            exit 1;
-          fi
           exit 15;
         displayName: Risk Check
       - script: |
