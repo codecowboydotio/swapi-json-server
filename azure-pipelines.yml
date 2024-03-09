@@ -56,8 +56,7 @@ stages:
       steps:
       - bash: |
           set -x
-          echo $(imageName)
-          echo $(mytoken)
+          echo "Deployment Target is set to $(deploymentTarget)"
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
           HEADERS[2]="Authorization: Token $(mytoken)"
