@@ -58,6 +58,7 @@ stages:
       - bash: |
           set -x
           echo "Deployment Target is set to $(deploymentTarget)"
+          echo $(deploymentTarget)
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
           HEADERS[2]="Authorization: Token $(mytoken)"
