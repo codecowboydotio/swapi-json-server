@@ -50,6 +50,7 @@ stages:
     - job: Main_Branch
       variables:
             imageName: 'swapi' 
+            deploymentTarget: $(deploymenttarget)
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
             mytoken: $(ORCA_API_KEY)
       steps:
@@ -60,7 +61,7 @@ stages:
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
           HEADERS[2]="Authorization: Token $(mytoken)"
-          sonarq="AwsLambdaFunction with Name like \"orca-poc-playground-lambda\" and Alerts"
+          sonarq="AwsLambdaFunction with Name like \"$(deploymentTarget)\" and Alerts"
           sonarq=${sonarq// /%20}
           curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" 
           NUM_RISKS = $(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="medium")] | length')
