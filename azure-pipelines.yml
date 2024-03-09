@@ -53,7 +53,7 @@ stages:
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
             mytoken: $(ORCA_API_KEY)
       steps:
-      - bash: |
+      - script: |
           echo "Deployment Target is set to $(DEPLOYMENTTARGET)"
           echo $(deploymentTarget)
           HEADERS[1]="Content-Type: application/json"
