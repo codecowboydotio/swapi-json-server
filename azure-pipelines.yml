@@ -67,7 +67,7 @@ stages:
           echo $NUM_RISKS
           if [ "$NUM_RISKS" -ne 0 ]
           then
-            echo "$NUM_RISKS of $(risk_level) found - aborting deployment"
+            echo "$NUM_RISKS risks of type $(risk_level) found - aborting deployment"
             exit 1;
           fi
         displayName: Risk Check
