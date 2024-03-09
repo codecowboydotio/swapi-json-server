@@ -50,13 +50,12 @@ stages:
     - job: Main_Branch
       variables:
             imageName: 'swapi' 
-            deploymentTarget: $(DEPLOYMENTTARGET)
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
             mytoken: $(ORCA_API_KEY)
       steps:
       - bash: |
           set -x
-          echo "Deployment Target is set to $(deploymentTarget)"
+          echo "Deployment Target is set to $(DEPLOYMENTTARGET)"
           echo $(deploymentTarget)
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
