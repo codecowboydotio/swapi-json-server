@@ -69,6 +69,7 @@ stages:
           then
             echo "$NUM_RISKS of $(risk_level) found - aborting deployment"
             exit 1;
+          fi
         displayName: Risk Check
       - script: |
           docker build . -t $(imageName)
