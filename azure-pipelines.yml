@@ -45,6 +45,7 @@ stages:
 #        displayName: Push image to registry 
       condition: and(succeeded(), eq(variables.isDev, 'true'))
   
+
   - stage: build_main
     jobs:
     - job: Main_Branch
