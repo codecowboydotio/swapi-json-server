@@ -52,6 +52,14 @@ stages:
             imageName: 'swapi' 
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
             mytoken: $(ORCA_API_KEY)
+      parameters:
+            - name: RunSonarQube
+              displayName: Run sonarqube analysis?
+              type: string
+              default: 'yes'
+              values:
+                - 'yes'
+                - 'no'
       steps:
       - bash: |
           set -x
