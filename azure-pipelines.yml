@@ -63,7 +63,6 @@ stages:
           HEADERS[2]="Authorization: Token $(mytoken)"
           sonarq="AwsLambdaFunction with Name like \"$(deploymentTarget)\" and Alerts"
           sonarq=${sonarq// /%20}
-          set -x
           NUM_RISKS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
           echo $NUM_RISKS
           if [ "$NUM_RISKS" -ne 0 ]
