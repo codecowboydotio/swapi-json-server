@@ -57,10 +57,12 @@ stages:
       - bash: |
           export NUM_RISKS=0
           echo "Deployment Target is set to $(DEPLOYMENTTARGET)"
+          echo "Deployment Type is set to $(TARGETTYPE)"
           echo $(deploymentTarget)
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
           HEADERS[2]="Authorization: Token $(mytoken)"
+          sonarq="vm with Name like \"$(deploymentTarget)\" and Alerts"
           sonarq="AwsLambdaFunction with Name like \"$(deploymentTarget)\" and Alerts"
           sonarq=${sonarq// /%20}
           NUM_RISKS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
