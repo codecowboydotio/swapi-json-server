@@ -58,14 +58,16 @@ stages:
           export NUM_RISKS=0
           echo "Deployment Target is set to $(DEPLOYMENTTARGET)"
           echo "Deployment Type is set to $(TARGETTYPE)"
-          echo $(deploymentTarget)
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
           HEADERS[2]="Authorization: Token $(mytoken)"
+          sonarq="null"
           if [ "TARGETTYPE" = "vm" ]
           then
             sonarq="vm with Name like \"$(deploymentTarget)\" and Alerts"
-          else
+          fi
+          if [ "$TARGETTYPE" = lambda" ]
+          then
             sonarq="AwsLambdaFunction with Name like \"$(deploymentTarget)\" and Alerts"
           fi
           sonarq=${sonarq// /%20}
