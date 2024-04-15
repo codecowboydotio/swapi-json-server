@@ -61,6 +61,7 @@ stages:
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
           HEADERS[2]="Authorization: Token $(mytoken)"
+          set -x
           sonarq="null"
           if [ "TARGETTYPE" = "vm" ]
           then
