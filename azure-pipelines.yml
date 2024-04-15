@@ -71,6 +71,7 @@ stages:
             if [ "$ASSET_EXISTS" -eq 0 ]
             then
               echo "Asset $(DEPLYMENTTARGET) does not exist - exiting"
+              exit 1
             else
               sonarq="vm with Name like \"$(deploymentTarget)\" and Alerts"
             fi
