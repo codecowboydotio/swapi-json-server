@@ -63,7 +63,7 @@ stages:
           HEADERS[2]="Authorization: Token $(mytoken)"
           set -x
           sonarq="null"
-          if [ "TARGETTYPE" = "vm" ]
+          if [ "$TARGETTYPE" = "vm" ]
           then
             sonarq="vm with Name like \"$(deploymentTarget)\" and Alerts"
           fi
