@@ -65,6 +65,9 @@ stages:
           sonarq="null"
           if [ "$TARGETTYPE" = "vm" ]
           then
+            sonarq="vm with Name like \"$(deploymentTarget)\""
+            sonarq=${sonarq// /%20}
+            ASSET_EXISTS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
             sonarq="vm with Name like \"$(deploymentTarget)\" and Alerts"
           fi
           if [ "$TARGETTYPE" = "lambda" ]
