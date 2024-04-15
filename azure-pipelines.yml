@@ -70,7 +70,7 @@ stages:
             ASSET_EXISTS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
             if [ "$ASSET_EXISTS" -eq 0 ]
             then
-              echo "Asset $(DEPLOYMENTTARGET) does not exist - exiting"
+              echo "Asset $(DEPLOYMENTTARGET) of type $(TARGETTYPE) does not exist - exiting"
               exit 1
             else
               sonarq="vm with Name like \"$(deploymentTarget)\" and Alerts"
@@ -78,7 +78,16 @@ stages:
           fi
           if [ "$TARGETTYPE" = "lambda" ]
           then
-            sonarq="Function with Name like \"$(deploymentTarget)\" and Alerts"
+            sonarq="Function with Name like \"$(deploymentTarget)\""
+            sonarq=${sonarq// /%20}
+            ASSET_EXISTS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
+            if [ "$ASSET_EXISTS" -eq 0 ]
+            then
+              echo "Asset $(DEPLOYMENTTARGET) of type $(TARGETTYPE) does not exist - exiting"
+              exit 1
+            else
+              sonarq="Function with Name like \"$(deploymentTarget)\" and Alerts"
+            fi
           fi
           sonarq=${sonarq// /%20}
           NUM_RISKS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
