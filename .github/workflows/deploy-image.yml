@@ -88,6 +88,9 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+  
       - name: Run IAC security scan
         run: |
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
@@ -102,6 +105,9 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+  
       - name: Run Orca Scoure Code Scan
         uses: orcasecurity/shiftleft-fs-action@v1
         with:
