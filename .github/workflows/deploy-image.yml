@@ -119,7 +119,6 @@ jobs:
       #  continue-on-error: true  
   
   build-and-scan-image:
-    #needs: [idiot_check]
     needs: [unit-tests]
     runs-on: ubuntu-latest
     permissions:
@@ -137,7 +136,7 @@ jobs:
       - name: Run Orca Container Image Scan
         uses: orcasecurity/shiftleft-container-image-action@v1
         with:
-          api_token: ${{ secrets.ORCA_SECURITY_API_TOKEN }}
+          api_token: ${{ secrets.ORCA_API_KEY }}
           project_key: ${{ env.PROJECT_KEY }}
           image: ${{ github.event.repository.name }}
 
