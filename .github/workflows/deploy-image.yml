@@ -97,7 +97,7 @@ jobs:
           echo "running IAC  scan"
           orca-cli -k ${{ secrets.ORCA_API_KEY }} -p default iac scan --path .
           sleep 5
-  orca-fs-scan:
+  orca-source-code-scan:
     needs: [unit-tests]
     runs-on: ubuntu-latest
     permissions:
