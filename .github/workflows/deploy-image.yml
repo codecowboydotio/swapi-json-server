@@ -89,7 +89,7 @@ jobs:
       packages: write
 
     steps:
-      - name: Run Orca FS Scan
+      - name: Run Orca Scoure Code Scan
         uses: orcasecurity/shiftleft-fs-action@v1
         with:
           api_token: ${{ secrets.ORCA_API_KEY }}
