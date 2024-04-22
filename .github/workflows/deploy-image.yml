@@ -137,7 +137,7 @@ jobs:
         uses: orcasecurity/shiftleft-container-image-action@v1
         with:
           api_token: ${{ secrets.ORCA_API_KEY }}
-          project_key: ${{ env.ORCA_PROJECT_KEY }}
+          project_key: ${{ vars.ORCA_PROJECT_KEY }}
           image: ${{ github.event.repository.name }}
 
   push-to-registry:
