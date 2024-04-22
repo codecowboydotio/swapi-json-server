@@ -112,7 +112,7 @@ jobs:
         uses: orcasecurity/shiftleft-fs-action@v1
         with:
           api_token: ${{ secrets.ORCA_API_KEY }}
-          project_key: ${{ env.ORCA_PROJECT_KEY }}
+          project_key: ${{ var.ORCA_PROJECT_KEY }}
           path:
             # scanning the entire repository
             "."
