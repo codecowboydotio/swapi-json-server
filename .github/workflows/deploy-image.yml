@@ -80,8 +80,21 @@ jobs:
 #          fi
               
 
+  orca-iac-scan:
+    needs: [unit-tests]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Run IAC security scan
+        run: |
+          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
+          echo "running IAC  scan"
+          orca-cli -k ${{ secrets.ORCA_API_KEY }} -p default iac scan --path .
+          sleep 5
   orca-fs-scan:
-    #needs: [idiot_check]
     needs: [unit-tests]
     runs-on: ubuntu-latest
     permissions:
@@ -115,16 +128,6 @@ jobs:
         run: |
           docker build --tag ${{ github.event.repository.name }} .
           docker images
-      - name: Run security scan
-        run: |
-          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
-          #docker run -u 0 --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p svk-2 --api-token ${{ secrets.ORCA_API_KEY }} image scan ${{ github.event.repository.name }}
-          set -x
-          #echo "running first scan"
-          #orca-cli -k ${{ secrets.ORCA_API_KEY }} -p container-restrictive image scan ${{ github.event.repository.name }}
-          echo "running second scan"
-          orca-cli -k ${{ secrets.ORCA_API_KEY }} -p default iac scan --path .
-          sleep 5
       - name: Run Orca Container Image Scan
         uses: orcasecurity/shiftleft-container-image-action@v1
         with:
