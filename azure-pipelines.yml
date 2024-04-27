@@ -62,6 +62,7 @@ stages:
           API_URL="https://api.orcasecurity.io/api"
           HEADERS[2]="Authorization: Token $(mytoken)"
           sonarq="null"
+          set -x
           if [ "$TARGETTYPE" = "vm" ]
           then
             sonarq="vm with Name like \"$(deploymentTarget)\""
