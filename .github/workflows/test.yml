@@ -50,7 +50,7 @@ jobs:
         EVENT: ${{ toJSON( github.event ) }}
       run: echo "$EVENT"
 
-  orca-iac-scan:
+  iac-scan:
     needs: [unit-tests]
     runs-on: ubuntu-latest
     permissions:
@@ -64,11 +64,12 @@ jobs:
       - name: Run IAC security scan
         run: |
           curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
-
+          chmod 700 ./sysdig-cli-scanner
           echo "running IAC  scan"
-          sysdig-cli-scanner
+          SECURE_API_TOKEN=${{ secrets.SYSDIG_API_TOKEN }} ./sysdig-cli-scanner --iac -r -f H --apiurl ${{ secrets.SYSDIG_URL }} .
+
           sleep 5
-  orca-source-code-scan:
+  source-code-scan:
     needs: [unit-tests]
     runs-on: ubuntu-latest
     permissions:
