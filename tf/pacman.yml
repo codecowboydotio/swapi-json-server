@@ -1,0 +1,42 @@
+- name: Provision ec2 instances based on the environment
+  hosts: localhost
+  connection: local
+  gather_facts: True
+
+#  vars_files:
+#    - roles/ec2/vars/aws_creds.yml
+  vars:
+    instance_type: t2.micro
+    security_group: sg-5f6e363b
+    subnet_id: subnet-4db34914
+#    image: ami-0009e96d7d65e3779
+    image: ami-0024a0637256e4d4f
+    keypair: svk_keypair
+    region: ap-southeast-2
+    count: 1
+
+
+  tasks:
+    - name: Launch the new EC2 Instance
+      ec2:
+        aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: true
+        region: "{{ region }}"
+        keypair: "{{ keypair }}"
+        count: "{{count}}"
+        instance_tags: 
+          Name: svk-app-server
+          owner: svk
+          application: build
+        instance_initiated_shutdown_behavior: terminate
+        vpc_subnet_id: "{{ subnet_id }}"
+      register: ec2
+    - debug: var=ec2.instances[0].public_ip
+    - name: Wait for machines to come up completely
+      wait_for: host={{ item.public_ip }} port=22
+      with_items: '{{ec2.instances}}'
+    - name: ping to get facts
+      ping:
