@@ -1,15 +1,28 @@
-{"level":"info","version":"1.17.0","commit":"4343060","time":"2024-11-18T17:00:51+11:00","message":"Starting analysis with Sysdig scanner"}
-{"level":"info","time":"2024-11-18T17:00:51+11:00","message":"Using path for the cache: /root/.cache/inlineScannerCache.db"}
-{"level":"info","time":"2024-11-18T17:00:51+11:00","message":"Using default vulnerability db version: V2"}
-{"level":"info","error":"failed parsing OnPrem version : Malformed version: ","time":"2024-11-18T17:00:53+11:00","message":"unable to get onPrem version, will assume SaaS environment"}
-{"level":"info","time":"2024-11-18T17:00:53+11:00","message":"Using default vulnerability db version: V2"}
-{"level":"info","time":"2024-11-18T17:00:53+11:00","message":"Retrieving MainDB"}
-{"level":"info","time":"2024-11-18T17:00:53+11:00","message":"Using local MainDB located at /root/bin/main.db/sysdig-db-data since it is already up to date"}
-{"level":"info","time":"2024-11-18T17:00:53+11:00","message":"Using cached DB file on path /root/bin/main.db/sysdig-db-data"}
-{"level":"info","time":"2024-11-18T17:00:54+11:00","message":"Loading MainDB from: /root/bin/main.db/sysdig-db-data"}
-{"level":"info","time":"2024-11-18T17:00:54+11:00","message":"Done: MainDB loaded"}
-{"level":"info","time":"2024-11-18T17:00:54+11:00","message":"Using default vulnerability db version: V2"}
-{"level":"info","time":"2024-11-18T17:00:54+11:00","message":"Using CSAF-VEX data for rpm matching"}
-{"level":"info","imgName":"swapi","time":"2024-11-18T17:00:54+11:00","message":"Retrieving image"}
-{"level":"warn","time":"2024-11-18T17:01:37+11:00","message":"Received interrupt, gracefully shutdown"}
-{"level":"error","error":"Unable to get image: image not found from loader","time":"2024-11-18T17:01:45+11:00","message":"Exiting now"}
+{"level":"info","version":"1.17.0","commit":"4343060","time":"2025-01-10T15:38:19+11:00","message":"Starting analysis with Sysdig scanner"}
+{"level":"info","time":"2025-01-10T15:38:19+11:00","message":"Using path for the cache: /root/.cache/inlineScannerCache.db"}
+{"level":"info","time":"2025-01-10T15:38:19+11:00","message":"Using default vulnerability db version: V2"}
+{"level":"info","error":"failed parsing OnPrem version : Malformed version: ","time":"2025-01-10T15:38:19+11:00","message":"unable to get onPrem version, will assume SaaS environment"}
+{"level":"info","time":"2025-01-10T15:38:19+11:00","message":"Using default vulnerability db version: V2"}
+{"level":"info","time":"2025-01-10T15:38:19+11:00","message":"Retrieving MainDB"}
+{"level":"info","time":"2025-01-10T15:38:19+11:00","message":"current db is older than 24h0m0s, check for updates"}
+{"level":"info","time":"2025-01-10T15:38:20+11:00","message":"Newer MainDB available, overwrite current one"}
+{"level":"info","time":"2025-01-10T15:38:20+11:00","message":"Downloading a new MainDB to /root/bin/main.db/sysdig-db-data"}
+{"level":"info","dbVersion":"V2","dbTimestamp":"2025-01-10T01:29:46Z","time":"2025-01-10T15:38:47+11:00","message":"DB correctly downloaded"}
+{"level":"info","time":"2025-01-10T15:38:47+11:00","message":"Got updated DB file on path /root/bin/main.db/sysdig-db-data: 264980228 bytes downloaded"}
+{"level":"info","time":"2025-01-10T15:38:47+11:00","message":"Loading MainDB from: /root/bin/main.db/sysdig-db-data"}
+{"level":"info","time":"2025-01-10T15:38:48+11:00","message":"Done: MainDB loaded"}
+{"level":"info","time":"2025-01-10T15:38:48+11:00","message":"Using default vulnerability db version: V2"}
+{"level":"info","time":"2025-01-10T15:38:48+11:00","message":"Using CSAF-VEX data for rpm matching"}
+{"level":"info","imgName":"swapi","time":"2025-01-10T15:38:48+11:00","message":"Retrieving image"}
+{"level":"info","imgName":"swapi","time":"2025-01-10T15:42:57+11:00","message":"Done: image retrieved"}
+{"level":"info","time":"2025-01-10T15:42:57+11:00","message":"Start analyzing image"}
+{"level":"info","url":"https://app.au1.sysdig.com/api/scanning/sbom/v2/base-images/search","layersDigest":["sha256:687d50f2f6a697da02e05f2b2b9cb05c1d551f37c404ebe55fdec44b0ae8aa5c","sha256:baf6b4cfb8701448d4b6c835e58a29f4a065cbcf26c45a0b264382cda4197725","sha256:4d128b427111cf37d50306f40071da8595e278ccccc405d29ad0e3aab7bac936","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef","sha256:cb4776c38eae3435212efd72fc3de9f2e2d32b93ff7a162878b3c7c164174628","sha256:da954a75d244f48eebcb07f1f5818542cf8d19810bd1a010e4c61069815a0287","sha256:4f272a9a2643cab53cb2ca194600990de1109bd0073158a4a0ecb54f04b4e38f","sha256:bfe34bb0f66fe2325dccc89a28268cbb3c4c57b9b81caf253738bca6393da6f1"],"time":"2025-01-10T15:43:07+11:00","message":"base images resolved"}
+{"level":"info","assetID":"sha256:f0f1a5f440c95fa20307b28eb8f209528a2f8bb160fabdec0c3dc6eaaee03444","pullstring":"swapi","analyzerInfo":{"version":"v0.0.0-20240924090535-23bbed6688b4"},"time":"2025-01-10T15:43:07+11:00","message":"{\"shouldExtract\":true}\n"}
+{"level":"info","time":"2025-01-10T15:43:07+11:00","message":"Start matching vulnerabilities"}
+{"level":"info","time":"2025-01-10T15:43:08+11:00","message":"Matched 1120 packages"}
+{"level":"info","time":"2025-01-10T15:43:08+11:00","message":"Start policies evaluation"}
+{"level":"info","result":"failed","time":"2025-01-10T15:43:08+11:00","message":"End policies evaluation"}
+{"level":"info","time":"2025-01-10T15:43:08+11:00","message":"Start risks acceptance evaluation"}
+{"level":"info","time":"2025-01-10T15:43:09+11:00","message":"Scan Result upload in progress"}
+{"level":"info","scan-result-id":"18193b2b8b32fc09119af1be93129a20","scan-result-url":"https://app.au1.sysdig.com/secure/#/vulnerabilities/results/18193b2b8b32fc09119af1be93129a20/overview","time":"2025-01-10T15:43:10+11:00","message":"Scan Result uploaded"}
+{"level":"info","duration":"4m51.523205552s","time":"2025-01-10T15:43:10+11:00","message":"Done"}
