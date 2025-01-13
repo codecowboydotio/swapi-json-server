@@ -1,8 +1,9 @@
 steps:
   - label: "Install Orca scanning tool on runner"
     command: |
-      echo -e "--- Installing \033[33mOrca Scanner\033[0m :heart:"
-      sudo curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
+      echo -e "--- Installing \033[33mSysdig Scanner\033[0m :heart:"
+      sudo curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+
   - label: "Building Image"
     command: |
       echo -e "--- Building Image :heart::heart::heart:"
