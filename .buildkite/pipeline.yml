@@ -19,7 +19,7 @@ steps:
   - label: "Running scan on branch $BUILDKITE_BRANCH :buildkite: for repo $BUILDKITE_REPO :github:"
     command: |
       set -x
-      aws secretsmanager get-secret-value --secret-id svk/sysdig | jq 
+      aws secretsmanager get-secret-value --secret-id svk/sysdig | jq '.SecretString'
       SECURE_API_TOKEN=\$(aws secretsmanager get-secret-value --secret-id svk/sysdig | jq '.SecretString' | awk -F '"' '{print \$3}' | awk -F '\' '{print \$1}') 
       echo \$SECURE_API_TOKEN
       sysdig-cli-scanner --apiurl https://app.au1.sysdig.com swapi
