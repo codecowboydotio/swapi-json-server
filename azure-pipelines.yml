@@ -6,6 +6,7 @@
 trigger:
 - dev
 - main
+- PR-1
 
 
 stages:
