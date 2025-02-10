@@ -37,7 +37,7 @@ stages:
       variables:
             imageName: 'swapi' 
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
-            mytoken: $(ORCA_API_KEY)
+            mytoken: $(SECURE_API_TOKEN)
       steps:
       - script: |
           docker build . -t $(imageName)
@@ -48,8 +48,9 @@ stages:
           chmod +x ./sysdig-cli-scanner
         displayName: Install orca scanner
       - script: |
+          set -x
           docker images
-          SECURE_API_TOKEN=${SECURE_API_TOKEN} ./sysdig-cli-scanner --apiurl ${SYSDIG_API_URL} ${{variables.imageName}}
+          SECURE_API_TOKEN=${variables.myToken} ./sysdig-cli-scanner --apiurl ${SYSDIG_API_URL} ${{variables.imageName}}
         displayName: Run container image security scan
       - script: |
           echo $(Build.SourceBranch)
