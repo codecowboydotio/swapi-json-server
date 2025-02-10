@@ -49,7 +49,7 @@ stages:
         displayName: Install orca scanner
       - script: |
           docker images
-          SECURE_API_TOKEN=${SECURE_API_TOKEN} ./sysdig-cli-scanner --apiurl ${SYSDIG_API_URL} ${imageName}
+          SECURE_API_TOKEN=${SECURE_API_TOKEN} ./sysdig-cli-scanner --apiurl ${SYSDIG_API_URL} ${{variables.imageName}}
         displayName: Run container image security scan
       - script: |
           echo $(Build.SourceBranch)
