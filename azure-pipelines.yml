@@ -23,27 +23,12 @@ stages:
           docker images
         displayName: 'Build container image'
       - script: |
-          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
-        displayName: Install orca scanner
-#      - task: Docker@2
-#        displayName: Login to ACR
-#        inputs:
-#          command: login
-#          containerRegistry: svkregistry
+          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+          chmod +x ./sysdig-cli-scanner
+        displayName: Install sysdig scanner
       - script: |
-          orca-cli --exit-code 0 -k $(ORCA_API_KEY) -p dev-pipeline fs scan .
+          sysdig-cli-scanner --apiurl https://app.au1.sysdig.com swapi
         displayName: Run security scan
-#      - script: |
-#          orca-cli --exit-code 0 -k $(ORCA_API_KEY) -p dev-pipeline image scan swapi
-#        displayName: Run security scan
-#      - script: |
-#          docker tag swapi:latest svktest.azurecr.io/swapi/swapi
-#          docker push svktest.azurecr.io/swapi/swapi
-#        displayName: Push image to registry 
-#      - script: |
-#          echo $(Build.SourceBranch)
-#
-#        displayName: Push image to registry 
       condition: and(succeeded(), eq(variables.isDev, 'true'))
 
   - stage: build_main
@@ -54,75 +39,18 @@ stages:
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
             mytoken: $(ORCA_API_KEY)
       steps:
-      - bash: |
-          export NUM_RISKS=0
-          echo "Deployment Target is set to $(DEPLOYMENTTARGET)"
-          echo "Deployment Type is set to $(TARGETTYPE)"
-          HEADERS[1]="Content-Type: application/json"
-          API_URL="https://api.orcasecurity.io/api"
-          HEADERS[2]="Authorization: Token $(mytoken)"
-          sonarq="null"
-          set -x
-          if [ "$TARGETTYPE" = "vm" ]
-          then
-            sonarq="vm with Name like \"$(deploymentTarget)\""
-            sonarq=${sonarq// /%20}
-            ASSET_EXISTS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r .total_items)
-            if [ "$ASSET_EXISTS" -eq 0 ]
-            then
-              echo "Asset $(DEPLOYMENTTARGET) of type $(TARGETTYPE) does not exist - exiting"
-              exit 1
-            else
-              sonarq="vm with Name like \"$(deploymentTarget)\" and Alerts"
-            fi
-          fi
-          if [ "$TARGETTYPE" = "lambda" ]
-          then
-            sonarq="Function with Name like \"$(deploymentTarget)\""
-            sonarq=${sonarq// /%20}
-            ASSET_EXISTS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r .total_items)
-            if [ "$ASSET_EXISTS" -eq 0 ]
-            then
-              echo "Asset $(DEPLOYMENTTARGET) of type $(TARGETTYPE) does not exist - exiting"
-              exit 1
-            else
-              sonarq="Function with Name like \"$(deploymentTarget)\" and Alerts"
-            fi
-          fi
-          sonarq=${sonarq// /%20}
-          NUM_RISKS=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '[.data[].data.Alerts[].data | select(.RiskLevel=="$(risk_level)")] | length')
-          if [ "$NUM_RISKS" -ne 0 ]
-          then
-            echo "$NUM_RISKS risks of type $(risk_level) found - aborting deployment"
-            exit 1;
-          fi
-        displayName: Risk Check
       - script: |
           docker build . -t $(imageName)
           docker images
         displayName: 'Build container image'
       - script: |
-          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash
+          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+          chmod +x ./sysdig-cli-scanner
         displayName: Install orca scanner
-#      - task: Docker@2
-#        displayName: Login to ACR
-#        inputs:
-#          command: login
-#          containerRegistry: svkregistry
       - script: |
           docker images
-          orca-cli -k $(ORCA_API_KEY) -p main-pipeline image scan swapi
+          SECURE_API_TOKEN=${SECURE_API_TOKEN} ./sysdig-cli-scanner --apiurl ${SYSDIG_API_URL} ${imageName}
         displayName: Run container image security scan
-#      - script: |
-#          docker tag swapi:latest svktest.azurecr.io/swapi/swapi
-#          docker push svktest.azurecr.io/swapi/swapi
-#        displayName: Push image to registry 
-      - script: |
-          orca-cli -k $(ORCA_API_KEY) -p dev-pipeline fs scan .
-        displayName: Run code scan
-      - script: |
-          echo $(Build.SourceBranch)
-        displayName: Push image to registry 
       - script: |
           echo $(Build.SourceBranch)
         displayName: Echo the REF (branch)
