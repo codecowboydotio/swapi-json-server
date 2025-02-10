@@ -51,7 +51,7 @@ stages:
       - script: |
           set -x
           docker images
-          SECURE_API_TOKEN=${variables.myToken} ./sysdig-cli-scanner --apiurl ${SYSDIG_API_URL} ${{variables.imageName}}
+          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) $(imageName)
         displayName: Run container image security scan
       - script: |
           echo $(Build.SourceBranch)
