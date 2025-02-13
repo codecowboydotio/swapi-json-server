@@ -7,6 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  SYSDIG_SECURE_URL: ${{ vars.SYSDIG_SECURE_URL }}
 
 jobs:
 
