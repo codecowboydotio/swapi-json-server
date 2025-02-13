@@ -46,10 +46,6 @@ jobs:
   sysdig-image-scan:
     needs: [unit-tests]
     runs-on: ubuntu-latest
-    permissions:
-    #  contents: read
-    #  packages: write
-       actions: read
 
     steps:
       - name: Checkout repository
