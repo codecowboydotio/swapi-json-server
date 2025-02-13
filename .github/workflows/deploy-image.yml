@@ -62,31 +62,18 @@ jobs:
         run: |
           docker build --tag ${{ github.event.repository.name }} .
           docker images
+      - name: Run image scan
+        run: | 
+          SECURE_API_TOKEN=${{ SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) ${{ github.event.repository.name }} .
   
-#  build-scan-image:
-#    needs: [unit-tests]
-#     runs-on: ubuntu-latest
-# 
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v2
-#   
-#       - name: Build container images
-#         run: |
-#           docker build --tag ${{ github.event.repository.name }} .
-#           docker images
-#       - name: Run image scan
-#         run: | 
-#           SECURE_API_TOKEN=${{ SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) ${{ github.event.repository.name }} .
-
-
-#  push-to-registry:
-#    needs: [build-and-scan-image]
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: read
-#      packages: write
-#    steps:
+  push-to-registry:
+    needs: [build-and-scan-image]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - run: echo "Your push to registry here..."
 #      - name: Checkout repository
 #        uses: actions/checkout@v2
 #
