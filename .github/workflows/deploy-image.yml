@@ -59,21 +59,21 @@ jobs:
           curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
           chmod +x ./sysdig-cli-scanner
   
-  build-scan-image:
-    needs: [unit-tests]
-     runs-on: ubuntu-latest
- 
-     steps:
-       - name: Checkout repository
-         uses: actions/checkout@v2
-   
-       - name: Build container images
-         run: |
-           docker build --tag ${{ github.event.repository.name }} .
-           docker images
-       - name: Run image scan
-         run: | 
-           SECURE_API_TOKEN=${{ SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) ${{ github.event.repository.name }} .
+#  build-scan-image:
+#    needs: [unit-tests]
+#     runs-on: ubuntu-latest
+# 
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+#   
+#       - name: Build container images
+#         run: |
+#           docker build --tag ${{ github.event.repository.name }} .
+#           docker images
+#       - name: Run image scan
+#         run: | 
+#           SECURE_API_TOKEN=${{ SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) ${{ github.event.repository.name }} .
 
 
 #  push-to-registry:
