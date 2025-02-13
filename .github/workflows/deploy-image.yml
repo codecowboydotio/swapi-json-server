@@ -54,22 +54,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
   
-#      - name: Install scanner
-#        run: |
-#          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
-#          chmod +x ./sysdig-cli-scanner
-#      - name: Build container images
-#        run: |
-#          docker build --tag ${{ github.event.repository.name }} .
-#          docker images
-#      - name: Run image scan
-#        run: | 
-#          SECURE_API_TOKEN=${{ secrets.SYSDIG_API_TOKEN }} ./sysdig-cli-scanner --apiurl ${{ secrets.SYSDIG_URL }} --output=json-file=sarif.json ${{ github.event.repository.name }} .
+      - name: Build container images
+        run: |
+          docker build --tag ${{ github.event.repository.name }} .
+          docker images
       - name: Scan image
         id: scan
         uses: sysdiglabs/scan-action@v5
         with:
-            image-tag: sysdiglabs/dummy-vuln-app:latest
+            image-tag: ${{ github.event.repository.name }}
+            #image-tag: sysdiglabs/dummy-vuln-app:latest
             sysdig-secure-token: ${{ secrets.SYSDIG_API_TOKEN }}
             sysdig-secure-url: ${{ vars.SYSDIG_SECURE_URL }}
       - name: Upload SARIF file
