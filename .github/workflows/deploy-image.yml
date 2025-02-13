@@ -64,7 +64,7 @@ jobs:
           docker images
       - name: Run image scan
         run: | 
-          SECURE_API_TOKEN=${{ SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) ${{ github.event.repository.name }} .
+          SECURE_API_TOKEN=${{ secrets.SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) ${{ github.event.repository.name }} .
   
   push-to-registry:
     needs: [build-and-scan-image]
