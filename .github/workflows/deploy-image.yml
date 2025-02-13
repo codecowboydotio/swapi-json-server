@@ -66,55 +66,55 @@ jobs:
           chmod +x ./sysdig-cli-scanner
       #  continue-on-error: true  
   
-  build-and-scan-image:
-    needs: [unit-tests]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+#  build-and-scan-image:
+#    needs: [unit-tests]
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      packages: write
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#      env:
+#        SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }}
+#  
+#      - name: Build container images
+#        run: |
+#          docker build --tag ${{ github.event.repository.name }} .
+#          docker images
+#      - name: Run image scan
+#        run: | 
+#          SECURE_API_TOKEN=${{ SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) ${{ github.event.repository.name }} .
+#
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      env:
-        SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }}
-  
-      - name: Build container images
-        run: |
-          docker build --tag ${{ github.event.repository.name }} .
-          docker images
-      - name: Run image scan
-        run: | 
-          SECURE_API_TOKEN=${{ SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) ${{ github.event.repository.name }} .
-
-
-  push-to-registry:
-    needs: [build-and-scan-image]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      - name: Build and push Docker image
-        if: ${{ success() }}
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+#  push-to-registry:
+#    needs: [build-and-scan-image]
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      packages: write
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#
+#      - name: Log in to the Container registry
+#        uses: docker/login-action@v1
+#        with:
+#          registry: ${{ env.REGISTRY }}
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Extract metadata (tags, labels) for Docker
+#        id: meta
+#        uses: docker/metadata-action@v3
+#        with:
+#          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+#      - name: Build and push Docker image
+#        if: ${{ success() }}
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: .
+#          push: true
+#          tags: ${{ steps.meta.outputs.tags }}
+#          labels: ${{ steps.meta.outputs.labels }}
