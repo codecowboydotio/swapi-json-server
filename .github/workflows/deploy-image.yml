@@ -72,6 +72,8 @@ jobs:
           ls -la
           docker images
       - name: Upload SARIF file
+        permissions:
+          actions: read
         if: success() || failure()
         uses: github/codeql-action/upload-sarif@v3
         with:
