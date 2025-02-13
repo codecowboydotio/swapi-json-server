@@ -47,8 +47,9 @@ jobs:
     needs: [unit-tests]
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      packages: write
+    #  contents: read
+    #  packages: write
+       actions: read
 
     steps:
       - name: Checkout repository
@@ -72,8 +73,6 @@ jobs:
           ls -la
           docker images
       - name: Upload SARIF file
-        permissions:
-          actions: read
         if: success() || failure()
         uses: github/codeql-action/upload-sarif@v3
         with:
