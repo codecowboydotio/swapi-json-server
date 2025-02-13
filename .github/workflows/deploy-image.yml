@@ -7,7 +7,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  SYSDIG_SECURE_URL: ${{ vars.SYSDIG_SECURE_URL }}
 
 jobs:
 
@@ -72,6 +71,7 @@ jobs:
         with:
             image-tag: sysdiglabs/dummy-vuln-app:latest
             sysdig-secure-token: ${{ secrets.SYSDIG_API_TOKEN }}
+            sysdig-secure-url: ${{ vars.SYSDIG_SECURE_URL }}
       - name: Upload SARIF file
         if: success() || failure()
         uses: github/codeql-action/upload-sarif@v3
