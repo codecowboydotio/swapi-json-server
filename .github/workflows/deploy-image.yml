@@ -64,7 +64,7 @@ jobs:
           docker images
       - name: Run image scan
         run: | 
-          SECURE_API_TOKEN=${{ secrets.SYSDIG_API_TOKEN }} ./sysdig-cli-scanner --apiurl ${{ secrets.SYSDIG_URL }} ${{ github.event.repository.name }} .
+          SECURE_API_TOKEN=${{ secrets.SYSDIG_API_TOKEN }} ./sysdig-cli-scanner --apiurl ${{ secrets.SYSDIG_URL }} --output=json-file=sarif.json ${{ github.event.repository.name }} .
       - name: Upload SARIF file
         if: success() || failure()
         uses: github/codeql-action/upload-sarif@v3
