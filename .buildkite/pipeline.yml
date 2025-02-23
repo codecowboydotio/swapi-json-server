@@ -3,8 +3,8 @@ steps:
     command: |
       echo -e "--- Installing \033[33mSysdig Scanner\033[0m :heart:"
       set -x
-      curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
-      chmod 755 ./sysdig-cli-scanner
+      sudo curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+      sudo chmod 755 ./sysdig-cli-scanner
       pwd
       #sudo cp -p ./sysdig-cli-scanner /usr/local/bin
 
