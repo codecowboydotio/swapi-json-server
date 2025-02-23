@@ -16,4 +16,4 @@ steps:
       id
       whoami
       API_TOKEN=\$(aws secretsmanager get-secret-value --secret-id svk/sysdig | jq -r .SecretString | awk -F '"' '{print \$4}') 
-      sudo SECURE_API_TOKEN=$$API_TOKEN sysdig-cli-scanner  --apiurl https://app.au1.sysdig.com swapi
+      SECURE_API_TOKEN=$$API_TOKEN sysdig-cli-scanner  --apiurl https://app.au1.sysdig.com swapi
