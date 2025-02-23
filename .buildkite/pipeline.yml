@@ -2,15 +2,17 @@ steps:
   - label: "Install Sysdig scanning tool on runner"
     command: |
       echo -e "--- Installing \033[33mSysdig Scanner\033[0m :heart:"
+      set -x
       curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
       chmod 755 ./sysdig-cli-scanner
+      pwd
       #sudo cp -p ./sysdig-cli-scanner /usr/local/bin
 
-  - label: "Building Image"
+  - label: "Building Image :spock-hand:"
     command: |
       echo -e "--- Building Image :heart::heart::heart:"
       docker build . -t swapi 
-  - label: "Running scan on branch $BUILDKITE_BRANCH :buildkite: for repo $BUILDKITE_REPO :github:"
+  - label: "Running scan on branch $BUILDKITE_BRANCH :buildkite: for repo $BUILDKITE_REPO :github: :spock-hand:"
     command: |
       set -x
       id
