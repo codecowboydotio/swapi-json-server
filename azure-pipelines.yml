@@ -53,7 +53,7 @@ stages:
           jsonOutput: true
           jsonOutputFile: 'sysdig-cli-scan-output.json'
           sysdigCliScannerVersion: '1.6.0'
-          #policy: my_custom_policy,my-custom-policy-ab
+          policy: sysdig-best-practices
 #      - script: |
 #          set -x
 #          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
