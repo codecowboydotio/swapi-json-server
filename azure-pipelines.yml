@@ -43,7 +43,7 @@ stages:
           docker build . -t $(imageName)
           docker images
         displayName: 'Build container image'
-      - task: Sysdig-CLI-Scan
+      - task: Sysdig-CLI-Scan@0
         displayName: Sysdig CLI Scan
         inputs:
           sysdigurl: $(SYSDIG_API_URL)
