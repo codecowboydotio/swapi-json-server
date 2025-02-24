@@ -43,14 +43,25 @@ stages:
           docker build . -t $(imageName)
           docker images
         displayName: 'Build container image'
-      - script: |
-          set -x
-          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
-          chmod +x ./sysdig-cli-scanner
-        displayName: Install sysdig scanner
-      - script: |
-          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --policy svk-vulns-notify-snow $(imageName)
-        displayName: Run container image security scan
+      - task: Sysdig-CLI-Scan@1
+        displayName: Sysdig CLI Scan
+        inputs:
+          sysdigurl: $(SYSDIG_API_URL)
+          apikey: $(SECURE_API_TOKEN)
+          image: swapi
+          verbose: true
+          jsonOutput: true
+          jsonOutputFile: 'sysdig-cli-scan-output.json'
+          sysdigCliScannerVersion: '1.6.0'
+          #policy: my_custom_policy,my-custom-policy-ab
+#      - script: |
+#          set -x
+#          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+#          chmod +x ./sysdig-cli-scanner
+#        displayName: Install sysdig scanner
+#      - script: |
+#          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --policy svk-vulns-notify-snow $(imageName)
+#        displayName: Run container image security scan
       - script: |
           echo $(Build.SourceBranch)
         displayName: Echo the REF (branch)
