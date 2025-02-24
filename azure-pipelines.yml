@@ -27,7 +27,7 @@ stages:
           chmod +x ./sysdig-cli-scanner
         displayName: Install sysdig scanner
       - script: |
-          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) $(imageName)
+          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --policy svk-vulns-notify-snow $(imageName)
         displayName: Run security scan
       condition: and(succeeded(), eq(variables.isDev, 'true'))
 
@@ -49,7 +49,7 @@ stages:
           chmod +x ./sysdig-cli-scanner
         displayName: Install sysdig scanner
       - script: |
-          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) $(imageName)
+          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --policy svk-vulns-notify-snow $(imageName)
         displayName: Run container image security scan
       - script: |
           echo $(Build.SourceBranch)
