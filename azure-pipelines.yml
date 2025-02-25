@@ -48,11 +48,11 @@ stages:
         inputs:
           sysdigurl: $(SYSDIG_API_URL)
           apikey: $(SECURE_API_TOKEN)
-          image: swapi
+          image: $(imageName)
           verbose: true
           jsonOutput: true
           jsonOutputFile: 'sysdig-cli-scan-output.json'
-          sysdigCliScannerVersion: '1.6.0'
+          sysdigCliScannerVersion: '1.20.0'
           policy: sysdig-best-practices
 #      - script: |
 #          set -x
