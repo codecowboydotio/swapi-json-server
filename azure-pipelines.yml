@@ -67,6 +67,7 @@ stages:
         displayName: Run container image security scan
       - script: |
           SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --iac .
+        condition: always()
         displayName: Run IaC  security scan
       - script: |
           echo $(Build.SourceBranch)
