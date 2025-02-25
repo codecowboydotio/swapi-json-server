@@ -70,6 +70,11 @@ stages:
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
       steps:
       - script: |
+          set -x
+          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+          chmod +x ./sysdig-cli-scanner
+        displayName: Install sysdig scanner
+      - script: |
           SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --iac .
         condition: always()
         displayName: Run IaC  security scan
