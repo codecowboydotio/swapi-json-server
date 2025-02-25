@@ -40,9 +40,9 @@ stages:
             mytoken: $(SECURE_API_TOKEN)
       steps:
       - script: |
+          echo $(mytoken)
           docker build . -t $(imageName)
           docker images
-          echo ${mytoken}
         displayName: 'Build container image'
       - task: Sysdig-CLI-Scan@0
         displayName: Sysdig CLI Scan
