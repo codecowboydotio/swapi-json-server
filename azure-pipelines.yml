@@ -42,6 +42,7 @@ stages:
       - script: |
           docker build . -t $(imageName)
           docker images
+          echo ${mytoken}
         displayName: 'Build container image'
       - task: Sysdig-CLI-Scan@0
         displayName: Sysdig CLI Scan
@@ -54,6 +55,8 @@ stages:
           jsonOutputFile: 'sysdig-cli-scan-output.json'
           sysdigCliScannerVersion: '1.20.0'
           policy: sysdig-best-practices
+          failBuild: true
+          fullVulnsTable: true
 #      - script: |
 #          set -x
 #          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
