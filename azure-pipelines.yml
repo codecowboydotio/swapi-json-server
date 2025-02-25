@@ -47,7 +47,7 @@ stages:
         displayName: Sysdig CLI Scan
         inputs:
           sysdigurl: $(SYSDIG_API_URL)
-          apikey: $(SECURE_API_TOKEN)
+          apikey: $(mytoken)
           image: $(imageName)
           verbose: true
           jsonOutput: true
