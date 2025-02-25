@@ -44,27 +44,27 @@ stages:
           docker build . -t $(imageName)
           docker images
         displayName: 'Build container image'
-      - task: Sysdig-CLI-Scan@0
-        displayName: Sysdig CLI Scan
-        inputs:
-          sysdigurl: $(SYSDIG_API_URL)
-          apikey: c35324ac-fc8f-4350-9d98-f3305d2697b6
-          image: $(imageName)
-          verbose: true
-          jsonOutput: true
-          jsonOutputFile: 'sysdig-cli-scan-output.json'
-          sysdigCliScannerVersion: '1.20.0'
-          policy: sysdig-best-practices
-          failBuild: true
-          fullVulnsTable: true
-#      - script: |
-#          set -x
-#          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
-#          chmod +x ./sysdig-cli-scanner
-#        displayName: Install sysdig scanner
-#      - script: |
-#          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --policy svk-vulns-notify-snow $(imageName)
-#        displayName: Run container image security scan
+#      - task: Sysdig-CLI-Scan@0
+#        displayName: Sysdig CLI Scan
+#        inputs:
+#          sysdigurl: $(SYSDIG_API_URL)
+#          apikey: $(SYSDIG_API_TOKEN)
+#          image: $(imageName)
+#          verbose: true
+#          jsonOutput: true
+#          jsonOutputFile: 'sysdig-cli-scan-output.json'
+#          sysdigCliScannerVersion: '1.20.0'
+#          policy: sysdig-best-practices
+#          failBuild: true
+#          fullVulnsTable: true
+      - script: |
+          set -x
+          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+          chmod +x ./sysdig-cli-scanner
+        displayName: Install sysdig scanner
+      - script: |
+          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --full-vulns-table --json-scan-result=sysdig-cli-scan-output.json --policy svk-vulns-notify-snow $(imageName)
+        displayName: Run container image security scan
     - job: Main_Branch_IaC
       variables:
             isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
