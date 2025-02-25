@@ -66,6 +66,9 @@ stages:
           SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --policy svk-vulns-notify-snow $(imageName)
         displayName: Run container image security scan
       - script: |
+          SECURE_API_TOKEN=$(SECURE_API_TOKEN) ./sysdig-cli-scanner --apiurl $(SYSDIG_API_URL) --iac .
+        displayName: Run IaC  security scan
+      - script: |
           echo $(Build.SourceBranch)
         displayName: Echo the REF (branch)
       condition: and(succeeded(), eq(variables.isMain, 'true'))
