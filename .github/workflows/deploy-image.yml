@@ -12,8 +12,8 @@ env:
 
 jobs:
  deployment:
-  lint-check:
-    environment: test-deploy-environment
+  #lint-check:
+   environment: test-deploy-environment
     name: lint-check
     runs-on: ubuntu-latest
     steps:
