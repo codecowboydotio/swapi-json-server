@@ -11,8 +11,9 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-
+ deployment:
   lint-check:
+    environment: test-deploy-environment
     name: lint-check
     runs-on: ubuntu-latest
     steps:
