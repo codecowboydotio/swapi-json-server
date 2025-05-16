@@ -11,11 +11,10 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
- deployment:
-  #lint-check:
-   environment: test-deploy-environment
+  lint-check:
     name: lint-check
     runs-on: ubuntu-latest
+    environment: test-deploy-environment
     steps:
 
       - name: Lint
