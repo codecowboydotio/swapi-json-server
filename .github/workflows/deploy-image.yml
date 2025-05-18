@@ -45,7 +45,7 @@ jobs:
         EVENT: ${{ toJSON( github.event ) }}
       run: echo "$EVENT"
 
-  sysdig-image-scan:
+  security-image-scan:
     needs: [unit-tests]
     runs-on: ubuntu-latest
     steps:
@@ -74,7 +74,7 @@ jobs:
 
   
   push-to-registry:
-    needs: [sysdig-image-scan]
+    needs: [security-image-scan]
     runs-on: ubuntu-latest
     permissions:
       contents: read
