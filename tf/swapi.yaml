@@ -1,12 +1,3 @@
-apiVersion: v1
-data:
-  .dockerconfigjson: eyJhdXRocyI6eyJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOnsidXNlcm5hbWUiOiJzdmFua2Fsa2VuIiwicGFzc3dvcmQiOiJkY2tyX3BhdF9veWpTV3hJZlVGcVlqeDI3MFB4a0FERXdfVlkiLCJhdXRoIjoiYzNaaGJtdGhiR3RsYmpwa1kydHlYM0JoZEY5dmVXcFRWM2hKWmxWR2NWbHFlREkzTUZCNGEwRkVSWGRmVmxrPSJ9fX0=
-kind: Secret
-metadata:
-  creationTimestamp: null
-  name: stg-docker-regcred
-type: kubernetes.io/dockerconfigjson
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,16 +15,14 @@ spec:
         app: swapi-api
     spec:
       containers:
-  #    - image: svankalken/svkrepo:swapi
       - image: public.ecr.aws/o5z5d3z9/svk:latest
         imagePullPolicy: Always
-        #imagePullPolicy: IfNotPresent
         name: swapi-api
         ports:
         - containerPort: 80
-      #imagePullSecrets:
-      #- name: stg-docker-regcred
-
+        securityContext:
+          allowPrivilegeEscalation: true
+          runAsUser: 0
 ---
 apiVersion: v1
 kind: Service
