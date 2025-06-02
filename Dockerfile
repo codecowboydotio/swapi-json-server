@@ -3,6 +3,7 @@ FROM docker.io/library/ubuntu:20.04
 MAINTAINER "@svk"
 
 LABEL description="SWAPI json server Container"
+LABEL repo="https://github.com/codecowboydotio/swapi-json-server"
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y npm nodejs
 COPY . /swapi
