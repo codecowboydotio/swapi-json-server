@@ -52,16 +52,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
   
-#      - name: Build container images
-#        run: |
-#          docker build --tag ${{ github.event.repository.name }} .
-#          docker images
+      - name: Build container images
+        run: |
+          docker build --tag ${{ github.event.repository.name }} .
+          docker images
       - name: Scan image
         id: scan
         uses: sysdiglabs/scan-action@v5
         with:
-          #  image-tag: ${{ github.event.repository.name }}
-            image-tag: sysdiglabs/dummy-vuln-app:latest
+            image-tag: ${{ github.event.repository.name }}
+          #  image-tag: sysdiglabs/dummy-vuln-app:latest
             sysdig-secure-token: ${{ secrets.SYSDIG_API_TOKEN }}
             sysdig-secure-url: ${{ vars.SYSDIG_SECURE_URL }}
             stop-on-failed-policy-eval: true
