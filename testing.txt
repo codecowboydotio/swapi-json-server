@@ -1,3 +1,0 @@
-Hello, World!
-This is a test file created via GitHub API.
-Current timestamp: 2025-09-05T01:09:45.092164+00:00
