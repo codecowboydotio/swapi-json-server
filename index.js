@@ -186,5 +186,4 @@ server.use(jsonServer.defaults())
 const router = jsonServer.router(relationDb)
 server.use(router)
 
-server.listen(3000)
-console.log(`Server started on port 3000`)
+module.exports = server
