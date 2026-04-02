@@ -21,7 +21,7 @@ spec:
         ports:
         - containerPort: 80
         securityContext:
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: true
           runAsUser: 0
 ---
 apiVersion: v1
