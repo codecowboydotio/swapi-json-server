@@ -6,7 +6,10 @@ LABEL description="SWAPI json server Container"
 LABEL repo="https://github.com/codecowboydotio/swapi-json-server"
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y npm nodejs
-COPY . /swapi
+COPY package.json package-lock.json app.js index.js /swapi/
+COPY bin /swapi/bin
+COPY public /swapi/public
+COPY films.json people.json planets.json species.json starships.json transport.json vehicles.json /swapi/
 WORKDIR /swapi
 RUN npm install
 RUN useradd -ms /bin/bash swapi

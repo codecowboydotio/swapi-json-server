@@ -58,7 +58,7 @@ jobs:
           docker images
       - name: Scan image
         id: scan
-        uses: sysdiglabs/scan-action@v5
+        uses: sysdiglabs/scan-action@2b2061657f7bd0d7905d76ee4e103827e2db3e3a # v5
         with:
             image-tag: ${{ github.event.repository.name }}
           #  image-tag: sysdiglabs/dummy-vuln-app:latest
