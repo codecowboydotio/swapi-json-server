@@ -2,7 +2,6 @@ resource "aws_instance" "windows" {
   ami		= data.aws_ami.windows.id
   instance_type = var.instance_type_linux_server
   subnet_id = aws_subnet.vpc-a_subnet_1.id
-  associate_public_ip_address = false
   key_name = var.key_name
   vpc_security_group_ids = [aws_security_group.vpc-a_allow_all.id]
   user_data = data.template_file.userdata_win.rendered
